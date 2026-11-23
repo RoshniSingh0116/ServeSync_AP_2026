@@ -1,0 +1,76 @@
+WITH new_order AS (
+    INSERT INTO orders
+    (table_number, total_amount, status, special_instructions)
+    VALUES
+    (10, 249.00, 'pending', 'Benchmark test order')
+    RETURNING id
+)
+INSERT INTO order_items
+(order_id, food_id, food_name, unit_price, quantity)
+SELECT
+    id,
+    1,
+    'Margherita Pizza',
+    249.00,
+    1
+FROM new_order;
+
+ROLLBACK;
+BEGIN
+Time: 0.126 ms
+INSERT 0 1
+Time: 1.594 ms
+ROLLBACK
+Time: 0.090 ms
+ap_project=# BEGIN;
+
+WITH new_order AS (
+    INSERT INTO orders
+    (table_number, total_amount, status, special_instructions)
+    VALUES
+    (10, 249.00, 'pending', 'Benchmark test order')
+    RETURNING id
+)
+INSERT INTO order_items
+(order_id, food_id, food_name, unit_price, quantity)
+SELECT
+    id,
+    1,
+    'Margherita Pizza',
+    249.00,
+    1
+FROM new_order;
+
+ROLLBACK;
+BEGIN
+Time: 0.146 ms
+INSERT 0 1
+Time: 0.629 ms
+ROLLBACK
+Time: 0.069 ms
+ap_project=# BEGIN;
+
+WITH new_order AS (
+    INSERT INTO orders
+    (table_number, total_amount, status, special_instructions)
+    VALUES
+    (10, 249.00, 'pending', 'Benchmark test order')
+    RETURNING id
+)
+INSERT INTO order_items
+(order_id, food_id, food_name, unit_price, quantity)
+SELECT
+    id,
+    1,
+    'Margherita Pizza',
+    249.00,
+    1
+FROM new_order;
+
+ROLLBACK;
+BEGIN
+Time: 0.130 ms
+INSERT 0 1
+Time: 0.545 ms
+ROLLBACK
+Time: 0.077 ms

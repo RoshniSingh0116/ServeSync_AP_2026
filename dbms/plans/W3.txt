@@ -1,0 +1,73 @@
+EXPLAIN (ANALYZE, BUFFERS)
+UPDATE foods
+SET
+    price = 120.00,
+    description = 'Updated temporary description'
+WHERE id = 5
+RETURNING *;
+
+ROLLBACK;
+BEGIN
+                                                         QUERY PLAN                                                         
+----------------------------------------------------------------------------------------------------------------------------
+ Update on foods  (cost=0.14..8.16 rows=1 width=54) (actual time=0.124..0.126 rows=1.00 loops=1)
+   Buffers: shared hit=5
+   ->  Index Scan using foods_pkey on foods  (cost=0.14..8.16 rows=1 width=54) (actual time=0.024..0.026 rows=1.00 loops=1)
+         Index Cond: (id = 5)
+         Index Searches: 1
+         Buffers: shared hit=2
+ Planning Time: 0.174 ms
+ Execution Time: 1.009 ms
+(8 rows)
+
+ROLLBACK
+ap_project=# BEGIN;
+
+EXPLAIN (ANALYZE, BUFFERS)
+UPDATE foods
+SET
+    price = 120.00,
+    description = 'Updated temporary description'
+WHERE id = 5
+RETURNING *;
+
+ROLLBACK;
+BEGIN
+                                                         QUERY PLAN                                                         
+----------------------------------------------------------------------------------------------------------------------------
+ Update on foods  (cost=0.14..8.16 rows=1 width=54) (actual time=0.101..0.103 rows=1.00 loops=1)
+   Buffers: shared hit=5
+   ->  Index Scan using foods_pkey on foods  (cost=0.14..8.16 rows=1 width=54) (actual time=0.039..0.041 rows=1.00 loops=1)
+         Index Cond: (id = 5)
+         Index Searches: 1
+         Buffers: shared hit=2
+ Planning Time: 0.106 ms
+ Execution Time: 0.129 ms
+(8 rows)
+
+ROLLBACK
+ap_project=# BEGIN;
+
+EXPLAIN (ANALYZE, BUFFERS)
+UPDATE foods
+SET
+    price = 120.00,
+    description = 'Updated temporary description'
+WHERE id = 5
+RETURNING *;
+
+ROLLBACK;
+BEGIN
+                                                         QUERY PLAN                                                         
+----------------------------------------------------------------------------------------------------------------------------
+ Update on foods  (cost=0.14..8.16 rows=1 width=54) (actual time=0.080..0.082 rows=1.00 loops=1)
+   Buffers: shared hit=5
+   ->  Index Scan using foods_pkey on foods  (cost=0.14..8.16 rows=1 width=54) (actual time=0.023..0.025 rows=1.00 loops=1)
+         Index Cond: (id = 5)
+         Index Searches: 1
+         Buffers: shared hit=2
+ Planning Time: 0.100 ms
+ Execution Time: 0.109 ms
+(8 rows)
+
+ROLLBACK

@@ -1,0 +1,208 @@
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    (SELECT COUNT(*) FROM foods) AS total_foods,
+    (SELECT COUNT(*) FROM foods WHERE is_available = TRUE) AS available_foods,
+    (SELECT COUNT(*) FROM foods WHERE is_available = FALSE) AS unavailable_foods,
+    (SELECT COUNT(*) FROM orders) AS total_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'pending') AS pending_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'preparing') AS preparing_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'ready') AS ready_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'completed') AS completed_orders;
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Result  (cost=112.42..112.44 rows=1 width=64) (actual time=0.065..0.067 rows=1.00 loops=1)
+   Buffers: shared hit=8
+   InitPlan 1
+     ->  Aggregate  (cost=11.50..11.51 rows=1 width=8) (actual time=0.024..0.025 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on foods  (cost=0.00..11.20 rows=120 width=0) (actual time=0.015..0.016 rows=5.00 loops=1)
+                 Buffers: shared hit=1
+   InitPlan 2
+     ->  Aggregate  (cost=11.35..11.36 rows=1 width=8) (actual time=0.006..0.006 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on foods foods_1  (cost=0.00..11.20 rows=60 width=0) (actual time=0.004..0.005 rows=5.00 loops=1)
+                 Filter: is_available
+                 Buffers: shared hit=1
+   InitPlan 3
+     ->  Aggregate  (cost=11.35..11.36 rows=1 width=8) (actual time=0.003..0.003 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on foods foods_2  (cost=0.00..11.20 rows=60 width=0) (actual time=0.003..0.003 rows=0.00 loops=1)
+                 Filter: (NOT is_available)
+                 Rows Removed by Filter: 5
+                 Buffers: shared hit=1
+   InitPlan 4
+     ->  Aggregate  (cost=15.62..15.63 rows=1 width=8) (actual time=0.005..0.005 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders  (cost=0.00..14.50 rows=450 width=0) (actual time=0.004..0.004 rows=3.00 loops=1)
+                 Buffers: shared hit=1
+   InitPlan 5
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.005..0.005 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_1  (cost=0.00..15.62 rows=2 width=0) (actual time=0.004..0.004 rows=1.00 loops=1)
+                 Filter: ((status)::text = 'pending'::text)
+                 Rows Removed by Filter: 2
+                 Buffers: shared hit=1
+   InitPlan 6
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.003..0.004 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_2  (cost=0.00..15.62 rows=2 width=0) (actual time=0.003..0.003 rows=1.00 loops=1)
+                 Filter: ((status)::text = 'preparing'::text)
+                 Rows Removed by Filter: 2
+                 Buffers: shared hit=1
+   InitPlan 7
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.007..0.008 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_3  (cost=0.00..15.62 rows=2 width=0) (actual time=0.007..0.007 rows=1.00 loops=1)
+                 Filter: ((status)::text = 'ready'::text)
+                 Rows Removed by Filter: 2
+                 Buffers: shared hit=1
+   InitPlan 8
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.003..0.003 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_4  (cost=0.00..15.62 rows=2 width=0) (actual time=0.002..0.002 rows=0.00 loops=1)
+                 Filter: ((status)::text = 'completed'::text)
+                 Rows Removed by Filter: 3
+                 Buffers: shared hit=1
+ Planning Time: 0.273 ms
+ Execution Time: 0.188 ms
+(55 rows)
+
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    (SELECT COUNT(*) FROM foods) AS total_foods,
+    (SELECT COUNT(*) FROM foods WHERE is_available = TRUE) AS available_foods,
+    (SELECT COUNT(*) FROM foods WHERE is_available = FALSE) AS unavailable_foods,
+    (SELECT COUNT(*) FROM orders) AS total_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'pending') AS pending_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'preparing') AS preparing_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'ready') AS ready_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'completed') AS completed_orders;
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Result  (cost=112.42..112.44 rows=1 width=64) (actual time=0.091..0.094 rows=1.00 loops=1)
+   Buffers: shared hit=8
+   InitPlan 1
+     ->  Aggregate  (cost=11.50..11.51 rows=1 width=8) (actual time=0.028..0.028 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on foods  (cost=0.00..11.20 rows=120 width=0) (actual time=0.017..0.019 rows=5.00 loops=1)
+                 Buffers: shared hit=1
+   InitPlan 2
+     ->  Aggregate  (cost=11.35..11.36 rows=1 width=8) (actual time=0.010..0.010 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on foods foods_1  (cost=0.00..11.20 rows=60 width=0) (actual time=0.006..0.008 rows=5.00 loops=1)
+                 Filter: is_available
+                 Buffers: shared hit=1
+   InitPlan 3
+     ->  Aggregate  (cost=11.35..11.36 rows=1 width=8) (actual time=0.006..0.006 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on foods foods_2  (cost=0.00..11.20 rows=60 width=0) (actual time=0.005..0.005 rows=0.00 loops=1)
+                 Filter: (NOT is_available)
+                 Rows Removed by Filter: 5
+                 Buffers: shared hit=1
+   InitPlan 4
+     ->  Aggregate  (cost=15.62..15.63 rows=1 width=8) (actual time=0.008..0.008 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders  (cost=0.00..14.50 rows=450 width=0) (actual time=0.006..0.007 rows=3.00 loops=1)
+                 Buffers: shared hit=1
+   InitPlan 5
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.008..0.008 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_1  (cost=0.00..15.62 rows=2 width=0) (actual time=0.006..0.007 rows=1.00 loops=1)
+                 Filter: ((status)::text = 'pending'::text)
+                 Rows Removed by Filter: 2
+                 Buffers: shared hit=1
+   InitPlan 6
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.005..0.006 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_2  (cost=0.00..15.62 rows=2 width=0) (actual time=0.004..0.004 rows=1.00 loops=1)
+                 Filter: ((status)::text = 'preparing'::text)
+                 Rows Removed by Filter: 2
+                 Buffers: shared hit=1
+   InitPlan 7
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.010..0.010 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_3  (cost=0.00..15.62 rows=2 width=0) (actual time=0.008..0.009 rows=1.00 loops=1)
+                 Filter: ((status)::text = 'ready'::text)
+                 Rows Removed by Filter: 2
+                 Buffers: shared hit=1
+   InitPlan 8
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.005..0.005 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_4  (cost=0.00..15.62 rows=2 width=0) (actual time=0.004..0.004 rows=0.00 loops=1)
+                 Filter: ((status)::text = 'completed'::text)
+                 Rows Removed by Filter: 3
+                 Buffers: shared hit=1
+ Planning Time: 0.192 ms
+ Execution Time: 0.215 ms
+(55 rows)
+
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    (SELECT COUNT(*) FROM foods) AS total_foods,
+    (SELECT COUNT(*) FROM foods WHERE is_available = TRUE) AS available_foods,
+    (SELECT COUNT(*) FROM foods WHERE is_available = FALSE) AS unavailable_foods,
+    (SELECT COUNT(*) FROM orders) AS total_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'pending') AS pending_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'preparing') AS preparing_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'ready') AS ready_orders,
+    (SELECT COUNT(*) FROM orders WHERE status = 'completed') AS completed_orders;
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Result  (cost=112.42..112.44 rows=1 width=64) (actual time=0.061..0.063 rows=1.00 loops=1)
+   Buffers: shared hit=8
+   InitPlan 1
+     ->  Aggregate  (cost=11.50..11.51 rows=1 width=8) (actual time=0.021..0.022 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on foods  (cost=0.00..11.20 rows=120 width=0) (actual time=0.015..0.016 rows=5.00 loops=1)
+                 Buffers: shared hit=1
+   InitPlan 2
+     ->  Aggregate  (cost=11.35..11.36 rows=1 width=8) (actual time=0.007..0.007 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on foods foods_1  (cost=0.00..11.20 rows=60 width=0) (actual time=0.005..0.006 rows=5.00 loops=1)
+                 Filter: is_available
+                 Buffers: shared hit=1
+   InitPlan 3
+     ->  Aggregate  (cost=11.35..11.36 rows=1 width=8) (actual time=0.003..0.004 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on foods foods_2  (cost=0.00..11.20 rows=60 width=0) (actual time=0.003..0.003 rows=0.00 loops=1)
+                 Filter: (NOT is_available)
+                 Rows Removed by Filter: 5
+                 Buffers: shared hit=1
+   InitPlan 4
+     ->  Aggregate  (cost=15.62..15.63 rows=1 width=8) (actual time=0.005..0.005 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders  (cost=0.00..14.50 rows=450 width=0) (actual time=0.004..0.004 rows=3.00 loops=1)
+                 Buffers: shared hit=1
+   InitPlan 5
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.005..0.005 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_1  (cost=0.00..15.62 rows=2 width=0) (actual time=0.004..0.004 rows=1.00 loops=1)
+                 Filter: ((status)::text = 'pending'::text)
+                 Rows Removed by Filter: 2
+                 Buffers: shared hit=1
+   InitPlan 6
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.003..0.004 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_2  (cost=0.00..15.62 rows=2 width=0) (actual time=0.003..0.003 rows=1.00 loops=1)
+                 Filter: ((status)::text = 'preparing'::text)
+                 Rows Removed by Filter: 2
+                 Buffers: shared hit=1
+   InitPlan 7
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.004..0.004 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_3  (cost=0.00..15.62 rows=2 width=0) (actual time=0.003..0.004 rows=1.00 loops=1)
+                 Filter: ((status)::text = 'ready'::text)
+                 Rows Removed by Filter: 2
+                 Buffers: shared hit=1
+   InitPlan 8
+     ->  Aggregate  (cost=15.63..15.64 rows=1 width=8) (actual time=0.003..0.003 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Seq Scan on orders orders_4  (cost=0.00..15.62 rows=2 width=0) (actual time=0.002..0.003 rows=0.00 loops=1)
+                 Filter: ((status)::text = 'completed'::text)
+                 Rows Removed by Filter: 3
+                 Buffers: shared hit=1
+ Planning Time: 0.226 ms
+ Execution Time: 0.133 ms
+(55 rows)
+
+ap_project=#

@@ -1,0 +1,92 @@
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    id,
+    name,
+    description,
+    price,
+    category,
+    image,
+    is_veg,
+    is_popular,
+    is_available,
+    created_at,
+    updated_at
+FROM foods
+WHERE ('Pizza'::varchar IS NULL OR category = 'Pizza')
+ORDER BY category ASC, name ASC;
+                                                QUERY PLAN                                                 
+-----------------------------------------------------------------------------------------------------------
+ Sort  (cost=11.51..11.52 rows=1 width=639) (actual time=2.383..2.384 rows=2.00 loops=1)
+   Sort Key: name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=4
+   ->  Seq Scan on foods  (cost=0.00..11.50 rows=1 width=639) (actual time=0.012..0.015 rows=2.00 loops=1)
+         Filter: ((category)::text = 'Pizza'::text)
+         Rows Removed by Filter: 3
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=21
+ Planning Time: 0.182 ms
+ Execution Time: 2.405 ms
+(12 rows)
+
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    id,
+    name,
+    description,
+    price,
+    category,
+    image,
+    is_veg,
+    is_popular,
+    is_available,
+    created_at,
+    updated_at
+FROM foods
+WHERE ('Pizza'::varchar IS NULL OR category = 'Pizza')
+ORDER BY category ASC, name ASC;
+                                                QUERY PLAN                                                 
+-----------------------------------------------------------------------------------------------------------
+ Sort  (cost=11.51..11.52 rows=1 width=639) (actual time=0.051..0.052 rows=2.00 loops=1)
+   Sort Key: name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=1
+   ->  Seq Scan on foods  (cost=0.00..11.50 rows=1 width=639) (actual time=0.021..0.023 rows=2.00 loops=1)
+         Filter: ((category)::text = 'Pizza'::text)
+         Rows Removed by Filter: 3
+         Buffers: shared hit=1
+ Planning Time: 0.110 ms
+ Execution Time: 0.074 ms
+(10 rows)
+
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    id,
+    name,
+    description,
+    price,
+    category,
+    image,
+    is_veg,
+    is_popular,
+    is_available,
+    created_at,
+    updated_at
+FROM foods
+WHERE ('Pizza'::varchar IS NULL OR category = 'Pizza')
+ORDER BY category ASC, name ASC;
+                                                QUERY PLAN                                                 
+-----------------------------------------------------------------------------------------------------------
+ Sort  (cost=11.51..11.52 rows=1 width=639) (actual time=0.047..0.048 rows=2.00 loops=1)
+   Sort Key: name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=1
+   ->  Seq Scan on foods  (cost=0.00..11.50 rows=1 width=639) (actual time=0.021..0.023 rows=2.00 loops=1)
+         Filter: ((category)::text = 'Pizza'::text)
+         Rows Removed by Filter: 3
+         Buffers: shared hit=1
+ Planning Time: 0.103 ms
+ Execution Time: 0.069 ms
+(10 rows)
+

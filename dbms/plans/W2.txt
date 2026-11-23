@@ -1,0 +1,68 @@
+EXPLAIN (ANALYZE, BUFFERS)
+INSERT INTO foods
+(name, description, price, category, image, is_veg, is_popular, is_available)
+VALUES
+('Test Food', 'Temporary food for benchmarking', 150.00,
+ 'Snacks', '', TRUE, FALSE, TRUE)
+RETURNING *;
+
+ROLLBACK;
+BEGIN
+                                            QUERY PLAN                                            
+--------------------------------------------------------------------------------------------------
+ Insert on foods  (cost=0.00..0.03 rows=1 width=639) (actual time=0.150..0.152 rows=1.00 loops=1)
+   Buffers: shared hit=3 dirtied=1
+   ->  Result  (cost=0.00..0.03 rows=1 width=639) (actual time=0.047..0.048 rows=1.00 loops=1)
+         Buffers: shared hit=1 dirtied=1
+ Planning Time: 0.054 ms
+ Execution Time: 0.181 ms
+(6 rows)
+
+ROLLBACK
+ap_project=# BEGIN;
+
+EXPLAIN (ANALYZE, BUFFERS)
+INSERT INTO foods
+(name, description, price, category, image, is_veg, is_popular, is_available)
+VALUES
+('Test Food', 'Temporary food for benchmarking', 150.00,
+ 'Snacks', '', TRUE, FALSE, TRUE)
+RETURNING *;
+
+ROLLBACK;
+BEGIN
+                                            QUERY PLAN                                            
+--------------------------------------------------------------------------------------------------
+ Insert on foods  (cost=0.00..0.03 rows=1 width=639) (actual time=0.070..0.071 rows=1.00 loops=1)
+   Buffers: shared hit=3
+   ->  Result  (cost=0.00..0.03 rows=1 width=639) (actual time=0.017..0.017 rows=1.00 loops=1)
+         Buffers: shared hit=1
+ Planning Time: 0.053 ms
+ Execution Time: 0.093 ms
+(6 rows)
+
+ROLLBACK
+ap_project=# BEGIN;
+
+EXPLAIN (ANALYZE, BUFFERS)
+INSERT INTO foods
+(name, description, price, category, image, is_veg, is_popular, is_available)
+VALUES
+('Test Food', 'Temporary food for benchmarking', 150.00,
+ 'Snacks', '', TRUE, FALSE, TRUE)
+RETURNING *;
+
+ROLLBACK;
+BEGIN
+                                            QUERY PLAN                                            
+--------------------------------------------------------------------------------------------------
+ Insert on foods  (cost=0.00..0.03 rows=1 width=639) (actual time=0.097..0.098 rows=1.00 loops=1)
+   Buffers: shared hit=3
+   ->  Result  (cost=0.00..0.03 rows=1 width=639) (actual time=0.020..0.020 rows=1.00 loops=1)
+         Buffers: shared hit=1
+ Planning Time: 0.054 ms
+ Execution Time: 0.123 ms
+(6 rows)
+
+ROLLBACK
+ap_project=#

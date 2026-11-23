@@ -1,0 +1,233 @@
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    o.id AS order_id,
+    o.table_number,
+    o.total_amount,
+    o.status,
+    o.special_instructions,
+    o.created_at,
+    o.updated_at,
+    oi.id AS order_item_id,
+    oi.food_id,
+    oi.food_name,
+    oi.unit_price,
+    oi.quantity,
+    (oi.unit_price * oi.quantity) AS item_total,
+    f.category AS current_food_category
+FROM orders AS o
+LEFT JOIN order_items AS oi
+    ON o.id = oi.order_id
+LEFT JOIN foods AS f
+    ON oi.food_id = f.id
+WHERE (NULL::varchar IS NULL OR o.status = NULL)
+  AND (NULL::integer IS NULL OR o.table_number = NULL)
+ORDER BY o.created_at DESC, o.id, oi.id;
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    o.id AS order_id,
+    o.table_number,
+    o.total_amount,
+    o.status,
+    o.special_instructions,
+    o.created_at,
+    o.updated_at,
+    oi.id AS order_item_id,
+    oi.food_id,
+    oi.food_name,
+    oi.unit_price,
+    oi.quantity,
+    (oi.unit_price * oi.quantity) AS item_total,
+    f.category AS current_food_category
+FROM orders AS o
+LEFT JOIN order_items AS oi
+    ON o.id = oi.order_id
+LEFT JOIN foods AS f
+    ON oi.food_id = f.id
+WHERE (NULL::varchar IS NULL OR o.status = NULL)
+  AND (NULL::integer IS NULL OR o.table_number = NULL)
+ORDER BY o.created_at DESC, o.id, oi.id;
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=68.12..69.24 rows=450 width=746) (actual time=0.096..0.098 rows=3.00 loops=1)
+   Sort Key: o.created_at DESC, o.id, oi.id
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=6
+   ->  Hash Right Join  (cost=32.83..48.29 rows=450 width=746) (actual time=0.069..0.076 rows=3.00 loops=1)
+         Hash Cond: (oi.order_id = o.id)
+         Buffers: shared hit=3
+         ->  Hash Left Join  (cost=12.70..25.36 rows=210 width=568) (actual time=0.034..0.036 rows=3.00 loops=1)
+               Hash Cond: (oi.food_id = f.id)
+               Buffers: shared hit=2
+               ->  Seq Scan on order_items oi  (cost=0.00..12.10 rows=210 width=350) (actual time=0.004..0.004 rows=3.00 loops=1)
+                     Buffers: shared hit=1
+               ->  Hash  (cost=11.20..11.20 rows=120 width=222) (actual time=0.019..0.019 rows=5.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                     Buffers: shared hit=1
+                     ->  Seq Scan on foods f  (cost=0.00..11.20 rows=120 width=222) (actual time=0.013..0.014 rows=5.00 loops=1)
+                           Buffers: shared hit=1
+         ->  Hash  (cost=14.50..14.50 rows=450 width=150) (actual time=0.019..0.020 rows=3.00 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+               Buffers: shared hit=1
+               ->  Seq Scan on orders o  (cost=0.00..14.50 rows=450 width=150) (actual time=0.007..0.008 rows=3.00 loops=1)
+                     Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=13
+ Planning Time: 0.240 ms
+ Execution Time: 0.155 ms
+(26 rows)
+
+ap_project=# 
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    o.id AS order_id,
+    o.table_number,
+    o.total_amount,
+    o.status,
+    o.special_instructions,
+    o.created_at,
+    o.updated_at,
+    oi.id AS order_item_id,
+    oi.food_id,
+    oi.food_name,
+    oi.unit_price,
+    oi.quantity,
+    (oi.unit_price * oi.quantity) AS item_total,
+    f.category AS current_food_category
+FROM orders AS o
+LEFT JOIN order_items AS oi
+    ON o.id = oi.order_id
+LEFT JOIN foods AS f
+    ON oi.food_id = f.id
+WHERE (NULL::varchar IS NULL OR o.status = NULL)
+  AND (NULL::integer IS NULL OR o.table_number = NULL)
+ORDER BY o.created_at DESC, o.id, oi.id;
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    o.id AS order_id,
+    o.table_number,
+    o.total_amount,
+    o.status,
+    o.special_instructions,
+    o.created_at,
+    o.updated_at,
+    oi.id AS order_item_id,
+    oi.food_id,
+    oi.food_name,
+    oi.unit_price,
+    oi.quantity,
+    (oi.unit_price * oi.quantity) AS item_total,
+    f.category AS current_food_category
+FROM orders AS o
+LEFT JOIN order_items AS oi
+    ON o.id = oi.order_id
+LEFT JOIN foods AS f
+    ON oi.food_id = f.id
+WHERE (NULL::varchar IS NULL OR o.status = NULL)
+  AND (NULL::integer IS NULL OR o.table_number = NULL)
+ORDER BY o.created_at DESC, o.id, oi.id;
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=68.12..69.24 rows=450 width=746) (actual time=0.082..0.083 rows=3.00 loops=1)
+   Sort Key: o.created_at DESC, o.id, oi.id
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=3
+   ->  Hash Right Join  (cost=32.83..48.29 rows=450 width=746) (actual time=0.061..0.068 rows=3.00 loops=1)
+         Hash Cond: (oi.order_id = o.id)
+         Buffers: shared hit=3
+         ->  Hash Left Join  (cost=12.70..25.36 rows=210 width=568) (actual time=0.024..0.026 rows=3.00 loops=1)
+               Hash Cond: (oi.food_id = f.id)
+               Buffers: shared hit=2
+               ->  Seq Scan on order_items oi  (cost=0.00..12.10 rows=210 width=350) (actual time=0.003..0.004 rows=3.00 loops=1)
+                     Buffers: shared hit=1
+               ->  Hash  (cost=11.20..11.20 rows=120 width=222) (actual time=0.013..0.013 rows=5.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                     Buffers: shared hit=1
+                     ->  Seq Scan on foods f  (cost=0.00..11.20 rows=120 width=222) (actual time=0.008..0.009 rows=5.00 loops=1)
+                           Buffers: shared hit=1
+         ->  Hash  (cost=14.50..14.50 rows=450 width=150) (actual time=0.023..0.023 rows=3.00 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+               Buffers: shared hit=1
+               ->  Seq Scan on orders o  (cost=0.00..14.50 rows=450 width=150) (actual time=0.011..0.012 rows=3.00 loops=1)
+                     Buffers: shared hit=1
+ Planning Time: 0.183 ms
+ Execution Time: 0.121 ms
+(24 rows)
+
+ap_project=# 
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    o.id AS order_id,
+    o.table_number,
+    o.total_amount,
+    o.status,
+    o.special_instructions,
+    o.created_at,
+    o.updated_at,
+    oi.id AS order_item_id,
+    oi.food_id,
+    oi.food_name,
+    oi.unit_price,
+    oi.quantity,
+    (oi.unit_price * oi.quantity) AS item_total,
+    f.category AS current_food_category
+FROM orders AS o
+LEFT JOIN order_items AS oi
+    ON o.id = oi.order_id
+LEFT JOIN foods AS f
+    ON oi.food_id = f.id
+WHERE (NULL::varchar IS NULL OR o.status = NULL)
+  AND (NULL::integer IS NULL OR o.table_number = NULL)
+ORDER BY o.created_at DESC, o.id, oi.id;
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    o.id AS order_id,
+    o.table_number,
+    o.total_amount,
+    o.status,
+    o.special_instructions,
+    o.created_at,
+    o.updated_at,
+    oi.id AS order_item_id,
+    oi.food_id,
+    oi.food_name,
+    oi.unit_price,
+    oi.quantity,
+    (oi.unit_price * oi.quantity) AS item_total,
+    f.category AS current_food_category
+FROM orders AS o
+LEFT JOIN order_items AS oi
+    ON o.id = oi.order_id
+LEFT JOIN foods AS f
+    ON oi.food_id = f.id
+WHERE (NULL::varchar IS NULL OR o.status = NULL)
+  AND (NULL::integer IS NULL OR o.table_number = NULL)
+ORDER BY o.created_at DESC, o.id, oi.id;
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=68.12..69.24 rows=450 width=746) (actual time=0.065..0.067 rows=3.00 loops=1)
+   Sort Key: o.created_at DESC, o.id, oi.id
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=3
+   ->  Hash Right Join  (cost=32.83..48.29 rows=450 width=746) (actual time=0.048..0.056 rows=3.00 loops=1)
+         Hash Cond: (oi.order_id = o.id)
+         Buffers: shared hit=3
+         ->  Hash Left Join  (cost=12.70..25.36 rows=210 width=568) (actual time=0.021..0.023 rows=3.00 loops=1)
+               Hash Cond: (oi.food_id = f.id)
+               Buffers: shared hit=2
+               ->  Seq Scan on order_items oi  (cost=0.00..12.10 rows=210 width=350) (actual time=0.004..0.004 rows=3.00 loops=1)
+                     Buffers: shared hit=1
+               ->  Hash  (cost=11.20..11.20 rows=120 width=222) (actual time=0.011..0.011 rows=5.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                     Buffers: shared hit=1
+                     ->  Seq Scan on foods f  (cost=0.00..11.20 rows=120 width=222) (actual time=0.007..0.007 rows=5.00 loops=1)
+                           Buffers: shared hit=1
+         ->  Hash  (cost=14.50..14.50 rows=450 width=150) (actual time=0.019..0.020 rows=3.00 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+               Buffers: shared hit=1
+               ->  Seq Scan on orders o  (cost=0.00..14.50 rows=450 width=150) (actual time=0.012..0.013 rows=3.00 loops=1)
+                     Buffers: shared hit=1
+ Planning Time: 0.190 ms
+ Execution Time: 0.115 ms
+(24 rows)
+
+(END)

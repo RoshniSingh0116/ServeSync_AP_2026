@@ -1,0 +1,58 @@
+EXPLAIN (ANALYZE, BUFFERS)
+INSERT INTO admins (username, email, password, role)
+VALUES ('test_admin', 'test_admin@example.com', 'test_hash', 'admin')
+RETURNING *;
+
+ROLLBACK;
+BEGIN
+                                             QUERY PLAN                                             
+----------------------------------------------------------------------------------------------------
+ Insert on admins  (cost=0.00..0.02 rows=1 width=1380) (actual time=0.259..0.261 rows=1.00 loops=1)
+   Buffers: shared hit=5 dirtied=1
+   ->  Result  (cost=0.00..0.02 rows=1 width=1380) (actual time=0.100..0.100 rows=1.00 loops=1)
+         Buffers: shared hit=1 dirtied=1
+ Planning Time: 0.092 ms
+ Execution Time: 0.303 ms
+(6 rows)
+
+ROLLBACK
+ap_project=# BEGIN;
+
+EXPLAIN (ANALYZE, BUFFERS)
+INSERT INTO admins (username, email, password, role)
+VALUES ('test_admin', 'test_admin@example.com', 'test_hash', 'admin')
+RETURNING *;
+
+ROLLBACK;
+BEGIN
+                                             QUERY PLAN                                             
+----------------------------------------------------------------------------------------------------
+ Insert on admins  (cost=0.00..0.02 rows=1 width=1380) (actual time=0.079..0.079 rows=1.00 loops=1)
+   Buffers: shared hit=7
+   ->  Result  (cost=0.00..0.02 rows=1 width=1380) (actual time=0.012..0.013 rows=1.00 loops=1)
+         Buffers: shared hit=1
+ Planning Time: 0.037 ms
+ Execution Time: 0.095 ms
+(6 rows)
+
+ROLLBACK
+ap_project=# BEGIN;
+
+EXPLAIN (ANALYZE, BUFFERS)
+INSERT INTO admins (username, email, password, role)
+VALUES ('test_admin', 'test_admin@example.com', 'test_hash', 'admin')
+RETURNING *;
+
+ROLLBACK;
+BEGIN
+                                             QUERY PLAN                                             
+----------------------------------------------------------------------------------------------------
+ Insert on admins  (cost=0.00..0.02 rows=1 width=1380) (actual time=0.065..0.066 rows=1.00 loops=1)
+   Buffers: shared hit=7
+   ->  Result  (cost=0.00..0.02 rows=1 width=1380) (actual time=0.012..0.012 rows=1.00 loops=1)
+         Buffers: shared hit=1
+ Planning Time: 0.033 ms
+ Execution Time: 0.080 ms
+(6 rows)
+
+ROLLBACK

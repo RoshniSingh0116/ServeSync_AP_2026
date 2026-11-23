@@ -1,0 +1,69 @@
+SELECT
+    id,
+    username,
+    email,
+    password,
+    role,
+    created_at
+FROM admins
+WHERE LOWER(username) = LOWER('admin1')
+   OR LOWER(email) = LOWER('admin1')
+LIMIT 1;
+                                                 QUERY PLAN                                                  
+-------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.00..5.50 rows=1 width=1380) (actual time=0.020..0.021 rows=1.00 loops=1)
+   Buffers: shared hit=1
+   ->  Seq Scan on admins  (cost=0.00..11.00 rows=2 width=1380) (actual time=0.018..0.018 rows=1.00 loops=1)
+         Filter: ((lower((username)::text) = 'admin1'::text) OR (lower((email)::text) = 'admin1'::text))
+         Buffers: shared hit=1
+ Planning Time: 1.332 ms
+ Execution Time: 0.041 ms
+(7 rows)
+
+ap_project=# 
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    id,
+    username,
+    email,
+    password,
+    role,
+    created_at
+FROM admins
+WHERE LOWER(username) = LOWER('admin1')
+   OR LOWER(email) = LOWER('admin1')
+LIMIT 1;
+                                                 QUERY PLAN                                                  
+-------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.00..5.50 rows=1 width=1380) (actual time=0.019..0.020 rows=1.00 loops=1)
+   Buffers: shared hit=1
+   ->  Seq Scan on admins  (cost=0.00..11.00 rows=2 width=1380) (actual time=0.017..0.018 rows=1.00 loops=1)
+         Filter: ((lower((username)::text) = 'admin1'::text) OR (lower((email)::text) = 'admin1'::text))
+         Buffers: shared hit=1
+ Planning Time: 0.128 ms
+ Execution Time: 0.034 ms
+(7 rows)
+
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT
+    id,
+    username,
+    email,
+    password,
+    role,
+    created_at
+FROM admins
+WHERE LOWER(username) = LOWER('admin1')
+   OR LOWER(email) = LOWER('admin1')
+LIMIT 1;
+                                                 QUERY PLAN                                                  
+-------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.00..5.50 rows=1 width=1380) (actual time=0.021..0.022 rows=1.00 loops=1)
+   Buffers: shared hit=1
+   ->  Seq Scan on admins  (cost=0.00..11.00 rows=2 width=1380) (actual time=0.019..0.020 rows=1.00 loops=1)
+         Filter: ((lower((username)::text) = 'admin1'::text) OR (lower((email)::text) = 'admin1'::text))
+         Buffers: shared hit=1
+ Planning Time: 0.133 ms
+ Execution Time: 0.039 ms
+(7 rows)
+

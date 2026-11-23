@@ -1,0 +1,39 @@
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT COUNT(*) AS admin_count
+FROM admins;
+                                                QUERY PLAN                                                 
+-----------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=10.62..10.63 rows=1 width=8) (actual time=0.025..0.026 rows=1.00 loops=1)
+   Buffers: shared hit=1
+   ->  Seq Scan on admins  (cost=0.00..10.50 rows=50 width=0) (actual time=0.016..0.017 rows=2.00 loops=1)
+         Buffers: shared hit=1
+ Planning Time: 0.102 ms
+ Execution Time: 0.050 ms
+(6 rows)
+
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT COUNT(*) AS admin_count
+FROM admins;
+                                                QUERY PLAN                                                 
+-----------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=10.62..10.63 rows=1 width=8) (actual time=0.029..0.030 rows=1.00 loops=1)
+   Buffers: shared hit=1
+   ->  Seq Scan on admins  (cost=0.00..10.50 rows=50 width=0) (actual time=0.019..0.020 rows=2.00 loops=1)
+         Buffers: shared hit=1
+ Planning Time: 0.113 ms
+ Execution Time: 0.060 ms
+(6 rows)
+
+ap_project=# 
+ap_project=# EXPLAIN (ANALYZE, BUFFERS)
+SELECT COUNT(*) AS admin_count
+FROM admins;
+                                                QUERY PLAN                                                 
+-----------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=10.62..10.63 rows=1 width=8) (actual time=0.023..0.024 rows=1.00 loops=1)
+   Buffers: shared hit=1
+   ->  Seq Scan on admins  (cost=0.00..10.50 rows=50 width=0) (actual time=0.015..0.015 rows=2.00 loops=1)
+         Buffers: shared hit=1
+ Planning Time: 0.094 ms
+ Execution Time: 0.049 ms
+(6 rows)
